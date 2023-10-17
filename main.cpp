@@ -1,5 +1,5 @@
 #include <pthread.h>
-#include <stdio.h>
+#include <cstdio>
 #include "./include/my_thread.h"
 
 void print_stuff(int a)
@@ -15,7 +15,9 @@ int main()
 {
     int a = 12;
     MyThread first_thread{print_stuff, a};
+    MyThread second_thread{print_stuff, a};
     first_thread.join();
+    second_thread.join();
     return 0;
 }
 
