@@ -43,4 +43,17 @@ MyThread::MyThread(Callable&& func, Args&&... args)
 }
 
 
+class MyMutex
+{
+public:
+	pthread_mutex_t my_mutex = PTHREAD_MUTEX_INITIALIZER;
+	MyMutex() = default;
+
+	void lock();
+	void unlock();
+
+	MyMutex(const MyMutex &) = delete;
+	MyMutex& operator=(const MyMutex&) = delete;
+};
+
 #endif //TERM_PROJECT_MY_THREAD_H
