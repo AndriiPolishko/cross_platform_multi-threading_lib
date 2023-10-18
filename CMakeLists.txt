@@ -1,12 +1,15 @@
-cmake_minimum_required(VERSION 3.26)
-project(cross_platform_multi_threading_lib)
+cmake_minimum_required(VERSION 3.24)
+project(my_thread)
+set(PROJECT_NAME my_thread)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
 
-add_executable(cross_platform_multi_threading_lib
+add_executable( ${PROJECT_NAME}
         include/my_thread.h
         src/my_thread.cpp
         main.cpp)
+
+target_link_libraries( ${PROJECT_NAME} PRIVATE -pthread)

@@ -1,0 +1,2 @@
+cmake
+libpthread-stubs0-dev
