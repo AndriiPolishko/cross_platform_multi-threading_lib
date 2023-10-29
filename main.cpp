@@ -1,36 +1,18 @@
-#include <pthread.h>
-#include <cstdio>
-#include "./include/my_thread.h"
+#include <functional>
 
-void print_stuff(int a)
+#include <iostream>
+#include "my_thread.h"
+
+void test(std::string data, int smth)
 {
-    const char *message1 = "Dude these treads be bussin` fo real";
-    const char *message2 = "straight facts boi";
-    printf("%s %i \n", message1, a);
-    printf("%s \n", message2);
-    pthread_exit(nullptr);
+	std::cout << data << std::endl << smth;
 }
 
-int global_stuff = 0;
-MyMutex mutex1;
-
-void iterate_global_stuff1()
-{
-	mutex1.lock();
-	for(int i = 0; i < 10; i++)
-	{
-		printf("%d\n", global_stuff++);
-	}
-	mutex1.unlock();
-}
 
 int main()
 {
-    int a = 12;
-    MyThread first_thread{iterate_global_stuff1};
-    MyThread second_thread{iterate_global_stuff1};
-    first_thread.join();
-    second_thread.join();
+	MyThread first(test, std::string{"abc"}, 13);
+	first.join();
     return 0;
 }
 
