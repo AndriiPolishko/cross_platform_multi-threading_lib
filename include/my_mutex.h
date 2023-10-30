@@ -5,17 +5,17 @@
 
 class MyMutex
 {
-private:
-	my_mutex_t my_mutex = create_mutex();
 public:
+	MyMutex() = default;
+	~MyMutex();
 	MyMutex operator=(const MyMutex) = delete;
 	MyMutex(const MyMutex &) = delete;
 public:
-	MyMutex() = default;
 	void lock();
 	void unlock();
 	my_mutex_t* native_handle();
-	~MyMutex();
+private:
+	my_mutex_t my_mutex = create_mutex();
 };
 
 #endif //MY_THREAD_MY_MUTEX_H

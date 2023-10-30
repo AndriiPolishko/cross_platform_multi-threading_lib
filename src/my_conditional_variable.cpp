@@ -10,9 +10,9 @@ MyCondVar::~MyCondVar()
 	cv_destroy(&my_cv);
 }
 
-void MyCondVar::wait(MyMutex mutex)
+void MyCondVar::wait(my_mutex_t* mutex)
 {
-	cv_wait(&my_cv, mutex.native_handle());
+	cv_wait(&my_cv, mutex);
 }
 
 void MyCondVar::signal()
