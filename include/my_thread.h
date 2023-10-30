@@ -1,12 +1,7 @@
 #ifndef TERM_PROJECT_MY_THREAD_H
 #define TERM_PROJECT_MY_THREAD_H
 
-#include "portable_types.h"
-#include <iostream>
-#include <string>
-#include <tuple>
-
-;
+#include "../portable_types/portable_thread.h"
 
 class MyThread
 {

@@ -2,17 +2,26 @@
 
 #include <iostream>
 #include "my_thread.h"
+#include "my_mutex.h"
 
-void test(std::string data, int smth)
+int counter = 0;
+MyMutex mutex;
+
+void count()
 {
-	std::cout << data << std::endl << smth;
+	mutex.lock();
+	for(int i = 0; i < 10; i++)
+		std::cout << counter++ << std::endl;
+	mutex.unlock();
 }
 
 
 int main()
 {
-	MyThread first(test, std::string{"abc"}, 13);
+	MyThread first(count);
+	MyThread second(count);
 	first.join();
+	second.join();
     return 0;
 }
 

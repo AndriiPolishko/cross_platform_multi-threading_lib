@@ -10,6 +10,6 @@ include_directories(include)
 add_executable( ${PROJECT_NAME}
         include/my_thread.h
         src/my_thread.cpp
-        main.cpp include/portable_types.h)
+        main.cpp portable_types/portable_thread.h include/my_mutex.h src/my_mutex.cpp portable_types/portable_mutex.h)
 
 target_link_libraries( ${PROJECT_NAME} PRIVATE -pthread)
