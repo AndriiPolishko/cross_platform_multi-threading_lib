@@ -7,14 +7,14 @@
 int counter = 0;
 MyMutex mutex;
 
-void count()
+int count()
 {
 	mutex.lock();
 	for(int i = 0; i < 10; i++)
 		std::cout << counter++ << std::endl;
 	mutex.unlock();
+	//pthread_exit(reinterpret_cast<void *>(13));
 }
-
 
 int main()
 {

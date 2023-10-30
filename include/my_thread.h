@@ -5,20 +5,16 @@
 
 class MyThread
 {
-	my_thread_t my_thread{};
+	my_thread_t my_thread;
 
 public:
 	MyThread() = default;
 
-//	~MyThread()
-//	{
-//		WaitForSingleObject(my_thread, INFINITE);
-//		CloseHandle(my_thread);
-//	}
+	~MyThread();
 
 	template <typename Callable, typename... Args>
 	explicit MyThread(Callable&& func, Args&&... args);
-	void join(void** retval = nullptr) const;
+	void join(retval val = nullptr) const;
 };
 
 template <typename Callable, typename... Args>

@@ -14,6 +14,7 @@ public:
 	MyMutex() = default;
 	void lock();
 	void unlock();
+	my_mutex_t* native_handle();
 	~MyMutex();
 };
 
