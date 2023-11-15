@@ -19,6 +19,10 @@
 	{
 		pthread_cond_signal(my_cv);
 	}
+    static void cv_broadcast(my_cond* my_cv)
+    {
+        pthread_cond_broadcast(my_cv);
+    }
 	static void cv_wait(my_cond* my_cv, pthread_mutex_t* mutex)
 	{
 		pthread_cond_wait(my_cv, mutex);

@@ -20,6 +20,11 @@ void MyCondVar::signal()
 	cv_signal(&my_cv);
 }
 
+void MyCondVar::broadcast()
+{
+    cv_broadcast(&my_cv);
+}
+
 void MyCondVar::enter_critical_section()
 {
 	#ifdef __linux

@@ -13,6 +13,7 @@ public:
 public:
 	void wait();
 	void signal();
+    void broadcast();
 	void enter_critical_section();
 	void leave_critical_section();
 
