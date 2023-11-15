@@ -1,7 +1,3 @@
-//
-// Created by polis on 30.10.2023.
-//
-
 #ifndef MY_THREAD_PORTABLE_MUTEX_H
 #define MY_THREAD_PORTABLE_MUTEX_H
 

@@ -1,17 +1,13 @@
-#include <functional>
-
 #include <iostream>
 #include "my_thread.h"
 #include "my_mutex.h"
 #include  "my_conditional_variable.h"
 
-#define NUM_THREADS 3
-#define TCOUNT 10
-#define COUNT_LIMIT 12
+int NUM_THREADS = 3;
+int TCOUNT = 10;
+int COUNT_LIMIT = 12;
 
 int count = 0;
-int thread_ids[3] = {0,1,2};
-MyMutex count_mutex;
 MyCondVar count_threshold_cv;
 void inc_count();
 void watch_count();
@@ -27,26 +23,26 @@ int main()
 	for (int i=0; i<NUM_THREADS; i++) {
 		threads[i].join();
 	}
-
 	std::cout << count;
     return 0;
 }
 
 void inc_count(){
 	for (int i=0; i<TCOUNT; i++) {
-		count_mutex.lock();
+		count_threshold_cv.enter_critical_section();
 		count++;
 		if (count == COUNT_LIMIT) {count_threshold_cv.signal(); }
-		count_mutex.unlock();
+		count_threshold_cv.leave_critical_section();
 	}
-	pthread_exit(NULL);
+	//pthread_exit(NULL);
 }
 void watch_count(){
-	count_mutex.lock();
+	count_threshold_cv.enter_critical_section();
 	if (count<COUNT_LIMIT) {
-		count_threshold_cv.wait(count_mutex.native_handle());
+		count_threshold_cv.wait();
 		count += 125;
 	}
-	count_mutex.unlock();
-	pthread_exit(NULL);
+
+	count_threshold_cv.leave_critical_section();
+	//pthread_exit(NULL);
 }

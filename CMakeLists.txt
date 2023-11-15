@@ -10,6 +10,26 @@ include_directories(include)
 add_executable( ${PROJECT_NAME}
         include/my_thread.h
         src/my_thread.cpp
-        main.cpp portable_types/portable_thread.h include/my_mutex.h src/my_mutex.cpp portable_types/portable_mutex.h include/my_thread_pool.h src/my_conditional_variable.cpp portable_types/portable_cond_var.h)
+        tests/cond_var_test.cpp
+        portable_types/portable_thread.h
+        include/my_mutex.h
+        src/my_mutex.cpp
+        portable_types/portable_mutex.h
+        include/my_thread_pool.h
+        src/my_conditional_variable.cpp
+        portable_types/portable_cond_var.h)
+
+add_executable( test_mutex
+        include/my_thread.h
+        src/my_thread.cpp
+        tests/mutex_test.cpp
+        portable_types/portable_thread.h
+        include/my_mutex.h
+        src/my_mutex.cpp
+        portable_types/portable_mutex.h
+        include/my_thread_pool.h
+        src/my_conditional_variable.cpp
+        portable_types/portable_cond_var.h)
 
 target_link_libraries( ${PROJECT_NAME} PRIVATE -pthread)
+target_link_libraries( test_mutex PRIVATE -pthread)

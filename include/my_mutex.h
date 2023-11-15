@@ -9,7 +9,7 @@ public:
 	MyMutex() = default;
 	~MyMutex();
 	MyMutex operator=(const MyMutex) = delete;
-	MyMutex(const MyMutex &) = delete;
+	MyMutex(const MyMutex &) = default;
 public:
 	void lock();
 	void unlock();
