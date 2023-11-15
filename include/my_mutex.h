@@ -8,7 +8,7 @@ class MyMutex
 public:
 	MyMutex() = default;
 	~MyMutex();
-	MyMutex operator=(const MyMutex) = delete;
+    //MyMutex& operator=(const MyMutex&) = delete; // Corrected the signature
 	MyMutex(const MyMutex &) = default;
 public:
 	void lock();
