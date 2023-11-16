@@ -36,18 +36,11 @@ class MyThreadPool
         while (!done)
         {
             std::function<void()> task;
-//            if (work_queue.try_pop(task))
-//            {
-//                task();
-//            }
-
-            if (!work_queue.isEmpty()) {
-                task = work_queue.dequeue();
+            if (work_queue.try_pop(task))
+            {
                 task();
             } else {
-                // You may replace this with your platform-specific yield function
-                // e.g., my_yield_function();
-                // MyThread::yield();
+              //  std::this_thread::yield();
             }
         }
     }

@@ -53,3 +53,5 @@ size_t MyThreadSafeQueue<T>::size()
 }
 
 template class MyThreadSafeQueue<int>;  // Explicit instantiation for int (or any other types you use)
+template class MyThreadSafeQueue<std::function<void()>>;  // Explicit instantiation for std::function<void()> (or any other types you use)
+
