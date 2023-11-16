@@ -9,7 +9,6 @@
 #include "my_conditional_variable.h"
 
 
-
 template <typename T>
 class MyThreadSafeQueue {
 private:
@@ -20,8 +19,8 @@ private:
 public:
     void enqueue(const T& value);
     T dequeue();
-//    bool try_pop(std::function<void()>& task);
-    [[nodiscard]] bool isEmpty() const;
-    [[nodiscard]] size_t size() const;
+    bool try_pop(T& task);
+    [[nodiscard]] bool isEmpty();
+    [[nodiscard]] size_t size();
 };
 #endif // MY_THREAD_MY_THREAD_SAFE_QUEUE_H
