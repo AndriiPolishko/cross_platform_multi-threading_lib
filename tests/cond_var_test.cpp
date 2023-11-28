@@ -15,7 +15,6 @@ void watch_count();
 
 int main()
 {
-	long t1=1, t2=2, t3=3;
 	MyThread threads[3];
 	threads[0].my_thread_create(watch_count);
 	threads[1].my_thread_create(inc_count);
@@ -34,7 +33,6 @@ void inc_count(){
 		if (count == COUNT_LIMIT) {count_threshold_cv.signal(); }
 		count_threshold_cv.leave_critical_section();
 	}
-	//pthread_exit(NULL);
 }
 void watch_count(){
 	count_threshold_cv.enter_critical_section();
@@ -44,5 +42,4 @@ void watch_count(){
 	}
 
 	count_threshold_cv.leave_critical_section();
-	//pthread_exit(NULL);
 }

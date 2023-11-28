@@ -42,7 +42,7 @@ add_executable( ${TEST4}
         src/my_thread_pool.cpp
         include/my_thread_pool.h
         src/my_thread_safe_queue.cpp
-        include/my_thread_safe_queue.h include/my_joiner.h include/TPM_QUEUE.h)
+        include/my_thread_safe_queue.h include/my_joiner.h)
 
 set(TESTS ${TEST1} ${TEST2} ${TEST3} ${TEST4})
 
