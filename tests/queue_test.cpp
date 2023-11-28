@@ -6,6 +6,7 @@
 void producer(MyThreadSafeQueue<int>& queue, int start, int end) {
     for (int i = start; i <= end; ++i) {
         queue.enqueue(i);
+		std::cout << "Enqueued: " << i << std::endl;
     }
 }
 

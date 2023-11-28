@@ -5,13 +5,15 @@
 
 #ifdef __linux
 	#include <pthread.h>
+	#include <unistd.h>
+	#include <sched.h>
 	typedef void* thread_routine;
 	typedef void* mvoid;
 #elif defined WIN32
 	#include <windows.h>
 	typedef DWORD thread_routine;
 	typedef LPVOID mvoid;
-#endif //WIN32
+#endif // __linux
 
 template <typename Callable, typename... Args>
 struct ThreadData
@@ -55,6 +57,23 @@ static thread_routine thread_start_routine(mvoid arg)
 	{
 		//just a stub
 	}
+	static void thread_sleep(size_t milliseconds)
+	{
+		usleep(milliseconds * 1000);
+	}
+	static void my_yield()
+	{
+		sched_yield();
+	}
+	static pid_t my_get_thread_id()
+	{
+		return gettid();
+	}
+	static long my_hardware_concurrency()
+	{
+		return sysconf( _SC_NPROCESSORS_ONLN );
+	}
+
 #elif defined WIN32
 	typedef HANDLE my_thread_t;
 	typedef DWORD* retval;
@@ -75,6 +94,14 @@ static thread_routine thread_start_routine(mvoid arg)
 	static void thread_destroy(my_thread_t my_thread)
 	{
 		CloseHandle(my_thread);
+	}
+	void my_thread_sleep(size_t milliseconds)
+	{
+		 Sleep(milliseconds);
+	}
+	void yield()
+	{
+		SwitchToThread();
 	}
 #endif // __linux
 
