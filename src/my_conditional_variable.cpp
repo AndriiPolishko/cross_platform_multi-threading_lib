@@ -51,3 +51,8 @@ my_predicate* MyCondVar::get_predicate_native_handle()
 		return &predicate;
 	#endif //__linux
 }
+
+void MyCondVar::wait(MyMutex& mutex)
+{
+    cv_wait(&my_cv, mutex.native_handle());
+}

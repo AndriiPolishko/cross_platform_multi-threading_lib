@@ -12,6 +12,7 @@ public:
 	MyCondVar operator=(const MyCondVar) = delete;
 public:
 	void wait();
+    void wait(MyMutex &mutex);
 	void signal();
     void broadcast();
 	void enter_critical_section();

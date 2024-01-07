@@ -9,3 +9,8 @@ MyThread::~MyThread()
 {
 	thread_destroy(my_thread);
 }
+
+void MyThread::detach() const
+{
+    m_detach(my_thread);
+}
