@@ -33,7 +33,7 @@ static thread_routine thread_start_routine(mvoid arg)
 	auto* threadData = static_cast<ThreadData<Callable, Args...>*>(arg);
 	threadData->invoke();
 	delete threadData;
-	return 0;
+	return nullptr;
 }
 
 #ifdef __linux
