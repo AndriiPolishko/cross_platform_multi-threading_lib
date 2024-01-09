@@ -7,4 +7,4 @@
 | Synchronisation primitives    | ✅      |
 | Thread pool                   | ⚒️     |
 | Thread safe queue             | ⚒️     |
-| Cross platform asinc          | ❌      |
+| Cross platform asinc          | ⚒️      |
