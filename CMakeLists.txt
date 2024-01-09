@@ -51,7 +51,10 @@ add_executable( ${TEST5}
         ${SRC} ${INCLUDE} ${TYPES}
         include/my_promise.h
         include/my_future.h
-        include/my_async.h)
+        include/my_async.h
+        include/launch_policy.h
+        src/my_future.cpp
+        src/my_promise.cpp)
 
 add_executable( ${TEST6}
         tests/unique_lock_test.cpp

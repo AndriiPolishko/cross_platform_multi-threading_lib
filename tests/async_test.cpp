@@ -1,5 +1,4 @@
 #include <iostream>
-#include <condition_variable>
 
 #include "my_thread.h"
 #include "my_promise.h"
@@ -64,7 +63,6 @@ struct ComplexData {
     std::string b;
 };
 
-
 ComplexData process_complex_data(const ComplexData& data) {
     ComplexData result = {data.a * 2, data.b + " processed"};
     return result;
@@ -77,12 +75,41 @@ void test_complex_data() {
     std::cout << "Result: " << result.a << ", " << result.b << std::endl;
 }
 
+int increase_value(int value) {
+    sleep(1); // Simulate work
+    value += 1;
+    return value;
+}
+
+void test_deferred_execution() {
+    int test_var = 0;
+    auto future = my_async(LaunchPolicy::Deferred, increase_value, test_var);
+
+    auto a = future.get();
+    std::cout << "Result: " << a << std::endl;
+}
+
+void do_work() {
+    sleep(1);
+    std::cout << "Work done" << std::endl;
+
+}
+
+void test_void() {
+    auto future = my_async(LaunchPolicy::Deferred, do_work);
+
+    future.get();
+}
+
 int main() {
+
     test1();
     test_exception_handling();
     test_multiple_async_calls();
     test_direct_promise_future();
     test_complex_data();
+    test_deferred_execution();
+    test_void();
 
     return 0;
 }
