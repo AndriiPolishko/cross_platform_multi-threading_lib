@@ -6,26 +6,29 @@
 class MyThread
 {
 public:
-	MyThread() = default;
-	template <typename Callable, typename... Args>
-	MyThread(Callable&& func, Args&&... args)
-	{
-		my_thread = thread_create(&my_thread, func, args...);
-	}
-	~MyThread();
+    MyThread() = default;
+
+    template <typename Callable, typename... Args>
+    explicit MyThread(Callable&& func, Args&&... args)
+    {
+        my_thread_create(std::forward<Callable>(func), std::forward<Args>(args)...);
+    }
+
+    ~MyThread();
 public:
-	void join(retval val = nullptr) const;
-	template <typename Callable, typename... Args>
-	void my_thread_create(Callable&& func, Args&&... args);
-	my_thread_t native_handle() { return my_thread; }
+    void join(retval val = nullptr) const;
+    void detach() const;
+
+    template <typename Callable, typename... Args>
+    void my_thread_create(Callable&& func, Args&&... args)
+    {
+        my_thread = thread_create(&my_thread, std::forward<Callable>(func), std::forward<Args>(args)...);
+    }
+
+    [[nodiscard]] my_thread_t native_handle() const { return my_thread; }
+
 private:
-	my_thread_t my_thread;
+    my_thread_t my_thread{};
 };
 
-template <typename Callable, typename... Args>
-void MyThread::my_thread_create(Callable&& func, Args&&... args)
-{
-	my_thread = thread_create(&my_thread, func, args...);
-}
-
-#endif //TERM_PROJECT_MY_THREAD_H
+#endif // TERM_PROJECT_MY_THREAD_H

@@ -53,6 +53,12 @@ static thread_routine thread_start_routine(mvoid arg)
 	{
 		pthread_join(my_thread, val);
 	}
+
+    static void m_detach(my_thread_t my_thread)
+    {
+        pthread_detach(my_thread);
+    }
+
 	static void thread_destroy(my_thread_t my_thread)
 	{
 		//just a stub
@@ -74,6 +80,7 @@ static thread_routine thread_start_routine(mvoid arg)
 		return sysconf( _SC_NPROCESSORS_ONLN );
 	}
 
+
 #elif defined WIN32
 	typedef HANDLE my_thread_t;
 	typedef DWORD* retval;
@@ -91,6 +98,10 @@ static thread_routine thread_start_routine(mvoid arg)
 		WaitForSingleObject(my_thread, INFINITE);
 
 	}
+    static void m_detach(my_thread_t my_thread)
+    {
+        CloseHandle(my_thread);
+    }
 	static void thread_destroy(my_thread_t my_thread)
 	{
 		CloseHandle(my_thread);
@@ -104,5 +115,7 @@ static thread_routine thread_start_routine(mvoid arg)
 		SwitchToThread();
 	}
 #endif // __linux
+
+
 
 #endif //MY_THREAD_PORTABLE_THREAD_H

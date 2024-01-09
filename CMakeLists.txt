@@ -8,6 +8,8 @@ set(TEST2 test_mutex)
 set(TEST3 test_queue)
 set(TEST4 test_thread_pool)
 set(TEST5 test_lock_guard)
+set(TEST6 test_async)
+set(TEST7 test_unique_lock)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -51,11 +53,25 @@ add_executable( ${TEST4}
         include/my_thread_safe_queue.h include/my_joiner.h)
 
 add_executable( ${TEST5}
+        tests/async_test.cpp
+        ${SRC} ${INCLUDE} ${TYPES}
+        include/my_promise.h
+        include/my_future.h
+        include/my_async.h)
+
+add_executable( ${TEST6}
         tests/lock_guard_test.cpp
         ${SRC} ${INCLUDE} ${TYPES}
         )
 
-set(TESTS ${TEST0} ${TEST1} ${TEST2} ${TEST3} ${TEST4} ${TEST5})
+add_executable( ${TEST7}
+        tests/unique_lock_test.cpp
+        ${SRC} ${INCLUDE} ${TYPES}
+        src/my_unique_lock.cpp
+        include/my_unique_lock.h)
+
+
+set(TESTS ${TEST0} ${TEST1} ${TEST2} ${TEST3} ${TEST4} ${TEST5} ${TEST6} ${TEST7})
 
 foreach(test_name IN LISTS TESTS)
     target_link_libraries(${test_name} PRIVATE -pthread)
