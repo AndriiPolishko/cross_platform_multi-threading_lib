@@ -7,24 +7,23 @@ set(TEST1 test_cond_var)
 set(TEST2 test_mutex)
 set(TEST3 test_queue)
 set(TEST4 test_thread_pool)
+set(TEST5 test_lock_guard)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
 
-set(PT portable_types)
+set(SRC     src/my_thread.cpp   src/my_mutex.cpp   src/my_conditional_variable.cpp    src/my_unique_lock.cpp )
+set(INCLUDE include/my_thread.h include/my_mutex.h include/my_conditional_variable.h  include/my_unique_lock.h include/my_lock_guard.h )
 
-set(SRC src/my_thread.cpp src/my_mutex.cpp src/my_conditional_variable.cpp src/my_unique_lock.cpp)
-set(INCLUDE include/my_thread.h include/my_thread_pool.h include/my_mutex.h include/my_unique_lock.h)
-
-set(TYPES ${PT}/portable_thread.h ${PT}/portable_mutex.h ${PT}/portable_cond_var.h)
+set(TYPES portable_types/portable_thread.h portable_types/portable_mutex.h portable_types/portable_cond_var.h)
 
 add_executable( ${TEST0}
         tests/basic_thread_test.cpp
         src/my_thread.cpp
         include/my_thread.h
-        ${PT}/portable_thread.h)
+        portable_types/portable_thread.h)
 
 add_executable( ${TEST1}
         tests/cond_var_test.cpp
@@ -51,7 +50,12 @@ add_executable( ${TEST4}
         src/my_thread_safe_queue.cpp
         include/my_thread_safe_queue.h include/my_joiner.h)
 
-set(TESTS ${TEST0} ${TEST1} ${TEST2} ${TEST3} ${TEST4})
+add_executable( ${TEST5}
+        tests/lock_guard_test.cpp
+        ${SRC} ${INCLUDE} ${TYPES}
+        )
+
+set(TESTS ${TEST0} ${TEST1} ${TEST2} ${TEST3} ${TEST4} ${TEST5})
 
 foreach(test_name IN LISTS TESTS)
     target_link_libraries(${test_name} PRIVATE -pthread)

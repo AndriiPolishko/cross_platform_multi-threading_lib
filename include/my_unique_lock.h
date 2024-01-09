@@ -7,7 +7,7 @@ class MyUniqueLock
 {
 public:
     explicit MyUniqueLock(MyMutex& mutex);
-    ~MyUniqueLock();
+
 
     MyUniqueLock(const MyUniqueLock&) = delete;
     MyUniqueLock& operator=(const MyUniqueLock&) = delete;
@@ -17,6 +17,7 @@ public:
     void lock();
     void unlock();
 
+	~MyUniqueLock();
 private:
     MyMutex& mutex_;
     bool locked_;
