@@ -1,7 +1,7 @@
 #ifndef MY_THREAD_PORTABLE_COND_VAR_H
 #define MY_THREAD_PORTABLE_COND_VAR_H
 
-#ifdef __linux
+#if defined(__linux) || defined(__MACH__)
 	#include <pthread.h>
 
 	typedef pthread_mutex_t my_predicate;
@@ -27,6 +27,7 @@
 	{
 		pthread_cond_wait(my_cv, mutex);
 	}
+
 #elif defined WIN32
 	#include <Windows.h>
 	typedef CRITICAL_SECTION my_predicate;

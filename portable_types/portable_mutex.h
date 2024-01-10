@@ -1,7 +1,7 @@
 #ifndef MY_THREAD_PORTABLE_MUTEX_H
 #define MY_THREAD_PORTABLE_MUTEX_H
 
-#ifdef __linux
+#if defined(__linux) || defined(__MACH__)
 	#include <pthread.h>
 	typedef pthread_mutex_t my_mutex_t;
 

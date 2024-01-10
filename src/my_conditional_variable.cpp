@@ -27,7 +27,7 @@ void MyCondVar::broadcast()
 
 void MyCondVar::enter_critical_section()
 {
-	#ifdef __linux
+    #if defined(__linux) || defined(__MACH__)
 		predicate.lock();
 	#else
 		EnterCriticalSection(&predicate);
@@ -36,7 +36,7 @@ void MyCondVar::enter_critical_section()
 
 void MyCondVar::leave_critical_section()
 {
-	#ifdef __linux
+    #if defined(__linux) || defined(__MACH__)
 		predicate.unlock();
 	#else
 		LeaveCriticalSection(&predicate);
@@ -45,7 +45,7 @@ void MyCondVar::leave_critical_section()
 
 my_predicate* MyCondVar::get_predicate_native_handle()
 {
-	#ifdef __linux
+    #if defined(__linux) || defined(__MACH__)
 		return predicate.native_handle();
 	#else
 		return &predicate;

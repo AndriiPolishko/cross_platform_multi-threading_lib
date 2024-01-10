@@ -18,14 +18,14 @@ public:
 	void enter_critical_section();
 	void leave_critical_section();
 
-	#ifdef __linux
+    #if defined(__linux) || defined(__MACH__)
 		my_mutex_t* get_predicate_native_handle();
 	#else
 		my_predicate* get_predicate_native_handle();
 	#endif
 private:
 	my_cond my_cv;
-	#ifdef __linux
+    #if defined(__linux) || defined(__MACH__)
 		MyMutex predicate;
 	#else
 		my_predicate predicate;

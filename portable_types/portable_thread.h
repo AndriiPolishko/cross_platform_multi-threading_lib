@@ -3,7 +3,7 @@
 
 #include <tuple>
 
-#ifdef __linux
+#if defined(__linux) || defined(__MACH__)
 	#include <pthread.h>
 	#include <unistd.h>
 	#include <sched.h>
@@ -36,7 +36,7 @@ static thread_routine thread_start_routine(mvoid arg)
 	return nullptr;
 }
 
-#ifdef __linux
+#if defined(__linux) || defined(__MACH__)
 	typedef pthread_t my_thread_t;
 	typedef void** retval;
 
@@ -73,7 +73,17 @@ static thread_routine thread_start_routine(mvoid arg)
 	}
 	static pid_t my_get_thread_id()
 	{
-		return gettid();
+    #if defined(__linux)
+        return gettid();
+    #elif defined(__MACH__)
+        uint64_t threadID;
+        int result = pthread_threadid_np(nullptr, &threadID);
+        if (result != 0) {
+            // Handle error
+            threadID = 0;
+        }
+        return threadID;
+    #endif // __linux nested
 	}
 	static long my_hardware_concurrency()
 	{
