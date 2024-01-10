@@ -16,7 +16,7 @@
 ## Documentation
 
 ### Klubochok-thread interface
-```
+```cpp
 class MyThread
 {
 public:
@@ -60,7 +60,7 @@ Currently, we've implemented two main primitives:
 - conditional variable
 
 <b>Mutex interface</b>
-```
+```cpp
 class MyMutex
 {
 public:
@@ -80,7 +80,7 @@ It's basically a thin wrapper around standard OS specific mutex with possibility
 to get this OS's mutex by ```native_handle()``` method. Copy and assignment operators are deleted.
 
 <b>Conditional variable interface</b>
-```
+```cpp
 class MyCondVar
 {
 public:
@@ -98,6 +98,32 @@ private:
 ```
 Allows all essential CV operations. It can wait for signal ```wait```, signalise to one thread ```signal``` or to all threads ```broadcast```.
 
+### Thread safe queue
+```cpp
+class MyThreadSafeQueue {
+public:
+	MyThreadSafeQueue() = default;
+	MyThreadSafeQueue(const MyThreadSafeQueue& anotherQueue)
+	{
+		MyLockGuard lockGuard(mutex_);
+		queue_ = anotherQueue.queue_;
+	}
+	MyThreadSafeQueue operator=(const MyThreadSafeQueue&) = delete;
+
+    void push(T value);
+	bool try_pop(T& value);
+	std::shared_ptr<T> try_pop();
+	void wait_and_pop(T& value);
+	std::shared_ptr<T> wait_and_pop();
+    [[nodiscard]] bool empty();
+    [[nodiscard]] size_t size();
+private:
+	MyMutex mutex_;
+	std::queue<T> queue_;
+	MyCondVar cond_;
+};
+```
+Our implementation of thread safe queue that uses mutex and conditional variable to provide thread safety. It has all essential operations for queue: ```push```- adds element to queue, ```try_pop```- returns false if queue is empty or returns true and pops last element, ```wait_and_pop```- pops when queue is not empty, ```empty```- thread safe method to check if queue is empty, ```size```- thread safe method to check the size of queue.
 ### ThreadPool
 
 ```cpp
