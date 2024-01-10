@@ -25,16 +25,22 @@ add_executable( ${TEST0}
         tests/basic_thread_test.cpp
         src/my_thread.cpp
         include/my_thread.h
-        portable_types/portable_thread.h)
+        portable_types/portable_thread.h
+)
 
 add_executable( ${TEST1}
         tests/cond_var_test.cpp
-        ${SRC} ${INCLUDE} ${TYPES}
-        )
+        src/my_thread.cpp   src/my_mutex.cpp   src/my_conditional_variable.cpp    src/my_unique_lock.cpp
+        include/my_thread.h include/my_mutex.h include/my_conditional_variable.h  include/my_unique_lock.h include/my_lock_guard.h
+        ${TYPES}
+)
 
 add_executable( ${TEST2}
         tests/mutex_test.cpp
-        ${SRC} ${INCLUDE} ${TYPES})
+        src/my_thread.cpp   src/my_mutex.cpp   src/my_unique_lock.cpp
+        include/my_thread.h include/my_mutex.h include/my_lock_guard.h
+        portable_types/portable_thread.h portable_types/portable_mutex.h
+)
 
 add_executable( ${TEST3}
         tests/queue_test.cpp
@@ -42,7 +48,8 @@ add_executable( ${TEST3}
         src/my_thread_pool.cpp
         include/my_thread_pool.h
         src/my_thread_safe_queue.cpp
-        include/my_thread_safe_queue.h)
+        include/my_thread_safe_queue.h
+)
 
 add_executable( ${TEST4}
         tests/thread_pool_test.cpp
@@ -50,7 +57,8 @@ add_executable( ${TEST4}
         src/my_thread_pool.cpp
         include/my_thread_pool.h
         src/my_thread_safe_queue.cpp
-        include/my_thread_safe_queue.h include/my_joiner.h)
+        include/my_thread_safe_queue.h include/my_joiner.h
+)
 
 add_executable( ${TEST5}
         tests/async_test.cpp
@@ -60,18 +68,21 @@ add_executable( ${TEST5}
         include/my_async.h
         include/launch_policy.h
         src/my_future.cpp
-        src/my_promise.cpp)
+        src/my_promise.cpp
+)
 
 add_executable( ${TEST6}
         tests/lock_guard_test.cpp
-        ${SRC} ${INCLUDE} ${TYPES}
-        )
+        src/my_thread.cpp   src/my_mutex.cpp
+        include/my_thread.h include/my_mutex.h
+        portable_types/portable_thread.h portable_types/portable_mutex.h
+)
 
 add_executable( ${TEST7}
         tests/unique_lock_test.cpp
-        ${SRC} ${INCLUDE} ${TYPES}
+        include/my_thread.h include/my_mutex.h include/my_lock_guard.h include/my_unique_lock.h
         src/my_unique_lock.cpp
-        include/my_unique_lock.h)
+)
 
 
 set(TESTS ${TEST0} ${TEST1} ${TEST2} ${TEST3} ${TEST4} ${TEST5} ${TEST6} ${TEST7})
