@@ -19,7 +19,7 @@ void MyFuture<void>::get() {
     }
 
     while (!state_->is_ready) {
-        cond_var_.wait(mutex_);
+        cond_var_.wait(&mutex_);
     }
 
     if (state_->exception) {
