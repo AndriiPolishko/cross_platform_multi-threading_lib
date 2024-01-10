@@ -1,12 +1,12 @@
-# Cross-platform multi threading library
+# Cross-platform multi-threading library
 <b>Small student clone of std::thread</b>
 
 | Functionality                 | Status |
 |-------------------------------|--------|
-| Handy cross platform creation | ✅      |
+| Handy cross-platform creation | ✅      |
 | Synchronisation primitives    | ✅      |
 | Thread safe queue             | ✅    |
-| Thread pool                   | ⚒️     |
+| Thread pool                   | ✅     |
 | Cross platform asinc          | ✅      |
 
 
