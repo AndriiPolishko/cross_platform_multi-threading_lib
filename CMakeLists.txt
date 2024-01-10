@@ -80,8 +80,8 @@ add_executable( ${TEST6}
 
 add_executable( ${TEST7}
         tests/unique_lock_test.cpp
-        include/my_thread.h include/my_mutex.h include/my_lock_guard.h include/my_unique_lock.h
-        src/my_unique_lock.cpp
+        include/my_thread.h include/my_mutex.h include/my_unique_lock.h
+        src/my_unique_lock.cpp src/my_mutex.cpp src/my_thread.cpp src/my_unique_lock.cpp
 )
 
 
