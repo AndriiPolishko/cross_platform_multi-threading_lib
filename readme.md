@@ -5,9 +5,9 @@
 |-------------------------------|--------|
 | Handy cross platform creation | ✅      |
 | Synchronisation primitives    | ✅      |
-| Thread safe queue             | ⚒️     |
+| Thread safe queue             | ✅    |
 | Thread pool                   | ⚒️     |
-| Cross platform asinc          | ⚒️      |
+| Cross platform asinc          | ✅      |
 
 
 
