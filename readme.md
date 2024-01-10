@@ -1,5 +1,5 @@
 # Cross-platform multi-threading library
-<b>Small student clone of std::thread</b>
+<b>Small student clone of std::thread with additional thread-safe data structures and async capabilities</b>
 
 | Functionality                 | Status |
 |-------------------------------|--------|
@@ -7,7 +7,7 @@
 | Synchronisation primitives    | ✅      |
 | Thread safe queue             | ✅    |
 | Thread pool                   | ✅     |
-| Cross platform asinc          | ✅      |
+| Cross platform async          | ✅      |
 
 
 
