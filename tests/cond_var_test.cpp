@@ -1,45 +1,51 @@
 #include <iostream>
+#include <queue>
+
 #include "my_thread.h"
 #include "my_mutex.h"
-#include  "my_conditional_variable.h"
+#include "my_conditional_variable.h"
 
-int NUM_THREADS = 3;
-int TCOUNT = 10;
-int COUNT_LIMIT = 12;
+std::queue<int> dataQueue;
+MyMutex mutex;
+MyCondVar condVar;
 
-int count = 0;
-MyCondVar count_threshold_cv;
-void inc_count();
-void watch_count();
+void* producer() {
+	for (int i = 0; i < 10; ++i) {
+		mutex.lock();
+		while (!dataQueue.empty()) {
+			condVar.wait(&mutex);
+		}
+		dataQueue.push(i);
+		std::cout << "Produced: " << i << std::endl;
+		condVar.signal();
+		mutex.unlock();
+	}
+	return nullptr;
+}
 
+
+void* consumer() {
+	for (int i = 0; i < 10; ++i) {
+		mutex.lock();
+		while (dataQueue.empty()) {
+			condVar.wait(&mutex);
+		}
+		int value = dataQueue.front();
+		dataQueue.pop();
+		std::cout << "Consumed: " << value << std::endl;
+		condVar.signal();
+		mutex.unlock();
+	}
+	return nullptr;
+}
 
 int main()
 {
-	MyThread threads[3];
-	threads[0].my_thread_create(watch_count);
-	threads[1].my_thread_create(inc_count);
-	threads[2].my_thread_create(inc_count);
-	for (int i=0; i<NUM_THREADS; i++) {
-		threads[i].join();
-	}
-	std::cout << count;
-    return 0;
-}
+	MyThread prodThread, consThread;
+	prodThread.my_thread_create(producer);
+	consThread.my_thread_create(consumer);
 
-void inc_count(){
-	for (int i=0; i<TCOUNT; i++) {
-		count_threshold_cv.enter_critical_section();
-		count++;
-		if (count == COUNT_LIMIT) {count_threshold_cv.signal(); }
-		count_threshold_cv.leave_critical_section();
-	}
-}
-void watch_count(){
-	count_threshold_cv.enter_critical_section();
-	if (count<COUNT_LIMIT) {
-		count_threshold_cv.wait();
-		count += 125;
-	}
-
-	count_threshold_cv.leave_critical_section();
+	prodThread.join();
+	consThread.join();
+	return 0;
 }
