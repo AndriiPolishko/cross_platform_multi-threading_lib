@@ -14,6 +14,68 @@
 ## Documentation
 
 
+
+### ThreadPool
+
+```cpp
+class ThreadPool;
+```
+
+The class `ThreadPool` represents a group of threads that can be used to execute tasks concurrently. It is an effective way to reuse threads and improve the performance of an application.
+
+#### Member functions
+
+- **(constructor)**: Constructs a new `ThreadPool` object. The number of threads in the pool is equal to the number of hardware threads.
+- **(destructor)**: Destroys the `ThreadPool` object.
+- **submit**: Adds a new task to the queue of tasks.
+  - **f** (``) - The function to be added to the task queue.
+- **notify_all_tasks_done** (private): Notifies all threads that there are no more tasks to do.
+- **worker_thread** (private): The function that manages the worker threads.
+
+#### Example
+
+```cpp
+#include "my_thread_pool.h"
+#include <iostream>
+#include "my_mutex.h"
+
+MyMutex outerMutex;
+
+void square_task(int num) {
+    {
+		// For good-looking output
+		outerMutex.lock();
+        std::cout << "Thread ID: " << my_get_thread_id() << ", Square of " << num << ": " << num * num << std::endl;
+		outerMutex.unlock();
+    }
+}
+
+int main() {
+    MyThreadPool threadPool;
+
+    for (int i = 1; i <= 10; ++i) {
+        threadPool.submit([i]() { square_task(i); });
+    }
+    return 0;
+}
+```
+
+Possible output:
+```
+Thread ID: 11381, Square of 1: 1
+Thread ID: 11381, Square of 5: 25
+Thread ID: 11381, Square of 6: 36
+Thread ID: 11381, Square of 7: 49
+Thread ID: 11381, Square of 8: 64
+Thread ID: 11381, Square of 9: 81
+Thread ID: 11381, Square of 10: 100
+Thread ID: 11380, Square of 2: 4
+Thread ID: 11379, Square of 3: 9
+Thread ID: 11382, Square of 4: 16
+```
+
+
+
 ### Async
 
 ```cpp
