@@ -2,30 +2,39 @@
 #include "../include/my_thread_safe_queue.h"
 #include "../include/my_thread.h"
 
+MyThreadSafeQueue<int> queue;
 
-void producer(MyThreadSafeQueue<int>& queue, int start, int end) {
+const int END = 10;
+
+void producer(int start, int end = END) {
     for (int i = start; i <= end; ++i) {
-        queue.enqueue(i);
+        queue.push(i);
 		std::cout << "Enqueued: " << i << std::endl;
     }
 }
 
-void consumer(MyThreadSafeQueue<int>& queue, int num_elements) {
-    for (int i = 0; i < num_elements; ++i) {
-        int value = queue.dequeue();
-        std::cout << "Dequeued: " << value << std::endl;
-    }
+void consumer(int num_elements) {
+	while (true)
+	{
+		int data;
+		queue.wait_and_pop(data);
+		std::cout << "Dequeued: " << data << std::endl;
+
+		if (data == num_elements)
+		{
+			break;
+		}
+	}
 }
 
 int main() {
-    MyThreadSafeQueue<int> myQueue;
 
     MyThread thread1{};
     MyThread thread2{};
-    thread1.my_thread_create(producer, std::ref(myQueue), 1, 10);
-    thread2.my_thread_create(consumer, std::ref(myQueue), 10);
+    thread1.my_thread_create(producer, 1, END);
+	thread2.my_thread_create(consumer, END);
 
-    thread1.join();
+	thread1.join();
     thread2.join();
 
     return 0;

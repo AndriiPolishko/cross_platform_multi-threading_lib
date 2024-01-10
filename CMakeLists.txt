@@ -45,8 +45,6 @@ add_executable( ${TEST2}
 add_executable( ${TEST3}
         tests/queue_test.cpp
         ${SRC} ${INCLUDE} ${TYPES}
-        src/my_thread_pool.cpp
-        include/my_thread_pool.h
         src/my_thread_safe_queue.cpp
         include/my_thread_safe_queue.h
 )

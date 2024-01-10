@@ -12,21 +12,25 @@
 	{
 		pthread_cond_init(my_cv, nullptr);
 	}
+
 	// Destroy conditional variable
 	static void cv_destroy(my_cond* my_cv)
 	{
 		pthread_cond_destroy(my_cv);
 	}
+
 	// Unblock specific thread
 	static void cv_signal(my_cond* my_cv)
 	{
 		pthread_cond_signal(my_cv);
 	}
+
 	// Unblock all threads
     static void cv_broadcast(my_cond* my_cv)
     {
         pthread_cond_broadcast(my_cv);
     }
+
 	// Block on conditional variable
 	static void cv_wait(my_cond* my_cv, pthread_mutex_t* mutex)
 	{
@@ -42,14 +46,17 @@
 	{
 		// a stud
 	}
+
 	static void cv_destroy(my_cond* my_cv)
 	{
 		// a stud
 	}
+
 	static void cv_signal(my_cond* my_cv)
 	{
 		WakeConditionVariable(my_cv);
 	}
+
 	static void cv_wait(my_cond* my_cv, my_predicate* predicate)
 	{
 		SleepConditionVariableCS(my_cv, predicate, INFINITE);
