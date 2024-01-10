@@ -1,4 +1,6 @@
+# Klubochok
 # Cross-platform multi-threading library
+
 <b>Small student clone of std::thread with additional thread-safe data structures and async capabilities</b>
 
 | Functionality                 | Status |
@@ -13,7 +15,88 @@
 
 ## Documentation
 
+### Klubochok-thread interface
+```
+class MyThread
+{
+public:
+    MyThread() = default;
+    ~MyThread();
 
+    template <typename Callable, typename... Args>
+    explicit MyThread(Callable&& func, Args&&... args)
+    {
+        my_thread_create(std::forward<Callable>(func), std::forward<Args>(args)...);
+    }
+	
+    void join(retval val = nullptr) const;
+    void detach() const;
+
+    template <typename Callable, typename... Args>
+    void my_thread_create(Callable&& func, Args&&... args)
+    {
+        my_thread = thread_create(&my_thread, std::forward<Callable>(func), std::forward<Args>(args)...);
+    }
+
+    my_thread_t native_handle() const { return my_thread; }
+
+private:
+    my_thread_t my_thread{};
+};
+```
+
+To run a function in new thread you have two options:
+- either pass function and its parameters to the constructor of the thread 
+```MyThread firstThread(getPower, 2, res)``` 
+- or create thread first and then call ```my_thread_create``` method on it
+```firstThread.my_thread_create(getPower, 2, res)```
+
+After creation, you have to join it or detach by ```join``` and ```detach``` methods
+respectively.
+
+### Synchronisation primitives
+Currently, we've implemented two main primitives:
+- mutex
+- conditional variable
+
+<b>Mutex interface</b>
+```
+class MyMutex
+{
+public:
+	MyMutex() = default;
+	~MyMutex();
+    MyMutex& operator=(const MyMutex&) = delete;
+    MyMutex(const MyMutex &) = default;
+public:
+	void lock();
+	void unlock();
+	my_mutex_t* native_handle();
+private:
+	my_mutex_t my_mutex = create_mutex();
+};
+```
+It's basically a thin wrapper around standard OS specific mutex with possibility 
+to get this OS's mutex by ```native_handle()``` method. Copy and assignment operators are deleted.
+
+<b>Conditional variable interface</b>
+```
+class MyCondVar
+{
+public:
+	MyCondVar();
+	~MyCondVar();
+	MyCondVar(const MyCondVar &) = delete;
+	MyCondVar operator=(const MyCondVar) = delete;
+public:
+	void wait(MyMutex* mutex);
+	void signal();
+    void broadcast();
+private:
+	my_cond my_cv;
+};
+```
+Allows all essential CV operations. It can wait for signal ```wait```, signalise to one thread ```signal``` or to all threads ```broadcast```.
 
 ### ThreadPool
 

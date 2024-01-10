@@ -33,7 +33,7 @@ static thread_routine thread_start_routine(mvoid arg)
 	auto* threadData = static_cast<ThreadData<Callable, Args...>*>(arg);
 	threadData->invoke();
 	delete threadData;
-	return nullptr;
+	return NULL;
 }
 
 #if defined(__linux) || defined(__MACH__)
@@ -116,11 +116,11 @@ static thread_routine thread_start_routine(mvoid arg)
 	{
 		CloseHandle(my_thread);
 	}
-	void my_thread_sleep(size_t milliseconds)
+	static void my_thread_sleep(size_t milliseconds)
 	{
 		 Sleep(milliseconds);
 	}
-	void yield()
+	static void yield()
 	{
 		SwitchToThread();
 	}
